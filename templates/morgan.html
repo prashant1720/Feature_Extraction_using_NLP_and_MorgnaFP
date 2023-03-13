@@ -66,27 +66,37 @@
 	</div>
 
 	<div class="content">
-    <h5 style="margin-top: 80px; margin-left: 26%;"><strong>MORGAN FINGURE PRINT 1024 BITS FEATURE VECTOR EXTRACTION</strong></h5>
-    <div  style="margin-top: 50px; margin-left: 30%; ">
-      <div class="d-flex flex-wrap">
-        <div class="card m-2" style="background-color: rgb(255, 255, 255); width: 550px; ">
-          <div class="card-body">   
-            <h5 class="text-center" style="font-size: medium;">Select your Smile CSV file For Morgan FP :</h5>
-            <form method="post" action="/morgan" enctype="multipart/form-data" style="margin-left: 8">
-              <br>
-              <input type="file" name="file" id="file">      
-             <input type="submit" value="Upload" style="color: black;">
-            </form>
-        </div>
-      </div>
+    <h5 style="margin-top: 80px; margin-left: 31%;"><strong>MORGAN FINGURE PRINT FEATURE VECTOR EXTRACTION</strong></h5>
+
+	<div style="margin-top: 50px; margin-left: 30%;">
+		<div class="d-flex flex-wrap">
+		  <div class="card m-2" style="background-color: rgb(255, 255, 255); width: 550px;">
+			<div class="card-body">
+			  <h5 class="text-center" style="font-size: medium;">Select your Smile CSV file for Morgan FP:</h5>
+			  <form method="post" action="/morgan" enctype="multipart/form-data" style="margin-left: 8">
+				<br>
+				<input type="file" name="file" id="file">
+				
+				<label for="nBits" style="margin-left: 20px;">Number of bits:</label>
+				<select name="nBits" id="nBits">
+				  <option value="512">512</option>
+				  <option value="1024" selected>1024</option>
+				  <option value="2048">2048</option>
+				</select>
+				<br>
+				<input type="submit" value="Upload" style="color: black; margin-left: 42%;" >
+			  </form>
+			</div>
+		  </div>
+		</div>
 	  </div>
-	</div>
-	
-	
+	  
+
+
 
     <div class="container">
 		
-		<div style="margin-left: 45%; margin-top: 5%; margin-bottom: 5%;">
+		<div style="margin-left: 42%; margin-top: 5%; margin-bottom: 5%;">
 		    <button id="download-button" type="button" class="btn btn-primary" style="background-color: azure; color: #000;" disabled >
 			<a href="{{ url_for('download_file', filename=filename) }}">Downloads</a>
 		  </button>
