@@ -69,7 +69,7 @@ def upload_csv():
         fig.update_layout(
         height=600,
         width=600,
-        title_text='GBM Cancer Cell line embedding')
+        title_text='    Umap-2D Embedding of Extracted Drug Features')
 
 
         plot_div = plotly.offline.plot(fig, output_type='div')
@@ -87,8 +87,10 @@ def morganFP():
         file = request.files['file']
         nBits = int(request.form.get('nBits', 1024))
         df = pd.read_csv(file)
+        # data = df[['DRUG_NAME', 'PUBCHEM_ID', 'SMILES']]
         df1 = df[['SMILES']]
         result= fe_1mol.morganFingerPrint(df1, nBits=nBits)
+        # Train=result
 
         table = result[['SMILES']+result.columns[10:].to_list()]
         # .to_html(classes='table table-striped')
