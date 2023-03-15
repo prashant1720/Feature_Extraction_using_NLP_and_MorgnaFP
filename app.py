@@ -68,8 +68,10 @@ def upload_csv():
 
         fig.update_layout(
         height=600,
+        
         width=600,
-        title_text='    Umap-2D Embedding of Extracted Drug Features')
+        title_text='Umap-2D Embedding of Extracted Drug Features')
+        fig.update_layout(title_text='Umap-2D Embedding of Extracted Drug Features', title_x=0.5)
 
 
         plot_div = plotly.offline.plot(fig, output_type='div')
@@ -98,7 +100,56 @@ def morganFP():
         filename = str(uuid.uuid4()) + '.csv'
         table.to_csv(os.path.join(app.root_path, 'download', filename))
 
-        return render_template('morgan.html',filename=filename)
+        # from here the graph code for morgan
+       
+        data = df[['DRUG_NAME', 'PUBCHEM_ID', 'SMILES']]
+        flag = 0
+        if 'DRUG_NAME' in result.columns.to_list():
+            y = result['DRUG_NAME']
+            flag = 1
+        else:
+            y = None
+            flag = 0
+
+        reducer = umap.UMAP(n_components=7, min_dist=0.001, )
+        cols = ['DRUG_NAME'] + list(result.columns[len(data.columns)+1:])
+
+        x = result[result.columns[len(data.columns)+1:]].copy(deep=True)
+
+        z = reducer.fit_transform(x.values)
+
+
+        df = pd.DataFrame()
+
+        if flag == 0:
+            pass
+        else:
+            df["y"] = y
+        df["comp-1"] = z[:, 0]
+        df["comp-2"] = z[:, 1]
+
+        if flag == 0:
+            fig = px.scatter(df, x="comp-1", y="comp-2", size_max=10)
+        else:
+            fig = px.scatter(df, x="comp-1", y="comp-2", size_max=10, color="y")
+
+        fig.update_traces(textposition='top center', marker=dict(size=10,
+                              line=dict(width=2,
+                                        color='DarkSlateGrey')),
+                  selector=dict(mode='markers'))
+
+        fig.update_layout(
+        height=600,
+        
+        width=600,
+        title_text=f'Umap-2D Embedding of Extracted Drug Features for {nBits} bits' )
+        fig.update_layout(title_text=f'Umap-2D Embedding of Extracted Drug Features for {nBits} bits', title_x=0.5)
+
+
+        plot_div = plotly.offline.plot(fig, output_type='div')
+
+
+        return render_template('morgan.html',filename=filename, plot_div=fig.to_html(full_html=False))
   else:
         return render_template('morgan.html')
 
